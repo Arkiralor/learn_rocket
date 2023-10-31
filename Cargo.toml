@@ -1,0 +1,25 @@
+[package]
+name = "learn_rocket"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.69.0"
+authors = [
+    "Arkiralor <prithoo11335@gmail.com>"
+]
+description = "A codebase to learn Rocket."
+readme = "README.md"
+repository = "https://github.com/Arkiralor/learn_rocket/"
+license-file = "LICENSE.md"
+keywords = ["learning", "tutorial", "rocket", "backend"]
+publish = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = {version = "0.5.0-rc.3", features = ["json"]}
+reqwest = { version = "0.11.13", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+lru_time_cache = "0.11.11"
+neo4rs = "0.6.2"
+uuid = "1.5.0"
+futures = "0.3.29"
