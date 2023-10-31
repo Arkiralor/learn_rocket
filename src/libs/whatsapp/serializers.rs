@@ -5,6 +5,58 @@ use std::fmt::Display;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct WhatsappImage {
+    pub caption: String,
+    pub mime_type: String,
+    pub sha_256: String,
+    pub id: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct WhatsappReaction {
+    pub msg_id: String,
+    pub emoji: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct WhatsappSticker {
+    pub mime_type: String,
+    pub sha_256: String,
+    pub id: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct WhatsappError {
+    pub code: i64,
+    pub details: String,
+    pub title: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct WhatsappUnknown {
+    pub errors: Vec<WhatsappError>,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct WhatsappButton {
+    pub text: String,
+    pub payload: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct WhatsappButtonReply {
+    pub id: String,
+    pub title: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct WhatsappInteractive {
+    pub button_reply: Option<WhatsappButtonReply>,
+    #[serde(rename = "type")]
+    pub _type: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct WhatsappText {
     pub body: String,
 }
@@ -16,6 +68,12 @@ pub struct WhatsappMessage {
     pub id: String,
     pub timestamp: String,
     pub text: Option<WhatsappText>,
+    pub reaction: Option<WhatsappReaction>,
+    pub image: Option<WhatsappImage>,
+    pub sticker: Option<WhatsappSticker>,
+    pub unknown: Option<WhatsappUnknown>,
+    pub button: Option<WhatsappButton>,
+    pub interactive: Option<WhatsappInteractive>,
     #[serde(rename = "type")]
     pub _type: String,
 }

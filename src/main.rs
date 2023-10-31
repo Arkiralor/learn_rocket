@@ -63,7 +63,7 @@ async fn get_latest_release(client: &State<Client>, repo: &str) -> Result<Value,
 
 #[post("/whatsapp", data = "<body>")]
 fn whatsapp_webhook(body: Json<WhatsappRequest>) -> Status {
-    let resp = get_messages(body);
+    let resp: Vec<libs::whatsapp::serializers::WhatsappMessage> = get_messages(body);
     let mut msg: String;
     println!("{:?}", resp);
     for i in resp {
