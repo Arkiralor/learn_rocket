@@ -6,6 +6,10 @@ use rocket::http::Status;
 use rocket::response::Redirect;
 use rocket::serde::json::{json, Value};
 use rocket::State;
+use rocket::{form::validate::contains, serde::json::*, *};
+
+use crate::libs::whatsapp::serializers::WhatsappRequest;
+use crate::libs::whatsapp::wa_utils::{get_message_type, get_messages, get_text_body};
 
 #[macro_use]
 extern crate rocket;
@@ -57,6 +61,20 @@ async fn get_latest_release(client: &State<Client>, repo: &str) -> Result<Value,
     Ok(github_response)
 }
 
+#[post("/whatsapp", data = "<body>")]
+fn whatsapp_webhook(body: Json<WhatsappRequest>) -> Status {
+    let resp = get_messages(body);
+    let mut msg: String;
+    println!("{:?}", resp);
+    for i in resp {
+        if get_message_type(i.clone()) == "text" {
+            msg = get_text_body(i);
+            println!("{msg}")
+        }
+    }
+    Status::Ok
+}
+
 // #[get("/example/1")]
 // async fn example_01() -> String {
 //     let res = example::example_01().await;
@@ -80,6 +98,7 @@ fn rocket() -> _ {
         )
         .mount("/", routes![index])
         .mount("/", routes![google_keep_desktop_api])
+        .mount("/", routes![whatsapp_webhook])
 }
 
 pub mod libs;
